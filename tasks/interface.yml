@@ -1,0 +1,4 @@
+- name: Generate WireGuard interface config
+  ansible.builtin.template:
+      src: templates/wg0.conf.j2
+      dest: /etc/wireguard/wg0.conf
