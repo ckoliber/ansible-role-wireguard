@@ -1,2 +1,5 @@
----
-# tasks file for wireguard
+- name: Include WireGuard installation tasks
+  ansible.builtin.include_tasks: install.yml
+
+- name: Include WireGuard interface tasks
+  ansible.builtin.include_tasks: interface.yml
