@@ -8,19 +8,19 @@
   ansible.builtin.apt:
       name: [wireguard, wireguard-tools]
       state: present
-      update_cache: yes
+      update_cache: true
 
 - name: Wireguard stop
   ansible.builtin.service:
       name: wg-quick@wg0
       state: stopped
-      enabled: yes
+      enabled: true
 
 - name: Wireguard generate keys
   register: wireguard_keys
   changed_when: false
   ansible.builtin.shell: |
-      set -e
+      set -e -o pipefail
       umask 077
       [ -f /etc/wireguard/private.key ] || wg genkey | tee /etc/wireguard/private.key > /dev/null
       [ -f /etc/wireguard/public.key ] || wg pubkey < /etc/wireguard/private.key | tee /etc/wireguard/public.key > /dev/null
@@ -49,4 +49,4 @@
   ansible.builtin.service:
       name: wg-quick@wg0
       state: started
-      enabled: yes
+      enabled: true
