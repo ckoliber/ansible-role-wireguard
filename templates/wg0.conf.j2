@@ -3,24 +3,10 @@ ListenPort = 51820
 PrivateKey = {{ wireguard_keys.stdout_lines[0] }}
 Address = {{ wireguard_host }}/32
 
-PostUp = iptables -I FORWARD -i wg0 -j ACCEPT
-PostUp = iptables -I FORWARD -o wg0 -j ACCEPT
-PostUp = iptables -t nat -I POSTROUTING -s {{ wireguard_cidr }} -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
-PostUp = iptables -t nat -I PREROUTING -d {{ wireguard_host }} -i %i -j DNAT --to-destination 127.0.0.2
-PostUp = sysctl -w net.ipv4.conf.all.route_localnet=1
-PostUp = sysctl -w net.ipv4.ip_forward=1
-
-PostDown = iptables -D FORWARD -i wg0 -j ACCEPT
-PostDown = iptables -D FORWARD -o wg0 -j ACCEPT
-PostDown = iptables -t nat -D POSTROUTING -s {{ wireguard_cidr }} -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
-PostDown = iptables -t nat -D PREROUTING -d {{ wireguard_host }} -i %i -j DNAT --to-destination 127.0.0.2
-PostDown = sysctl -w net.ipv4.conf.all.route_localnet=0
-PostDown = sysctl -w net.ipv4.ip_forward=0
-
 {% for target in wireguard_graph[inventory_hostname].targets %}
 [Peer]
 Endpoint = {{ hostvars[target].ansible_default_ipv4.address }}:51820
 PublicKey = {{ hostvars[target].wireguard_keys.stdout_lines[1] }}
-AllowedIPs = {{ hostvars[target].wireguard_host }}/32
+AllowedIPs = {{ ([hostvars[target].wireguard_host ~ '/32'] + wireguard_routes.result[target]) | join(", ") }}
 PersistentKeepalive = 25
 {% endfor %}

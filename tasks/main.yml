@@ -31,6 +31,12 @@
   ansible.builtin.set_fact:
       wireguard_host: "{{ wireguard_cidr | ansible.utils.nthhost(ansible_play_hosts_all.index(inventory_hostname) + 1) }}"
 
+- name: Wireguard generate routes
+  register: wireguard_routes
+  compute_routes:
+      host: "{{ inventory_hostname }}"
+      graph: "{{ wireguard_graph }}"
+
 - name: Wireguard generate config
   ansible.builtin.template:
       src: templates/wg0.conf.j2
@@ -44,9 +50,3 @@
       name: wg-quick@wg0
       state: started
       enabled: yes
-# DHCP
-# Route
-
-# - name: Test wireguard_route module
-#   wireguard_route:
-#       name: test
