@@ -1,5 +1,52 @@
-- name: Include WireGuard installation tasks
-  ansible.builtin.include_tasks: install.yml
+# - name: Include WireGuard installation tasks
+#   ansible.builtin.include_tasks: install.yml
 
-- name: Include WireGuard interface tasks
-  ansible.builtin.include_tasks: interface.yml
+# - name: Include WireGuard interface tasks
+#   ansible.builtin.include_tasks: interface.yml
+
+- name: WireGuard install
+  ansible.builtin.apt:
+      name: [wireguard, wireguard-tools]
+      state: present
+      update_cache: yes
+
+- name: Wireguard stop
+  ansible.builtin.service:
+      name: wg-quick@wg0
+      state: stopped
+      enabled: yes
+
+- name: Wireguard generate keys
+  register: wireguard_keys
+  changed_when: false
+  ansible.builtin.shell: |
+      set -e
+      umask 077
+      [ -f /etc/wireguard/private.key ] || wg genkey | tee /etc/wireguard/private.key > /dev/null
+      [ -f /etc/wireguard/public.key ] || wg pubkey < /etc/wireguard/private.key | tee /etc/wireguard/public.key > /dev/null
+      cat /etc/wireguard/private.key
+      cat /etc/wireguard/public.key
+
+- name: Wireguard generate host
+  ansible.builtin.set_fact:
+      wireguard_host: "{{ wireguard_cidr | ansible.utils.nthhost(ansible_play_hosts_all.index(inventory_hostname) + 1) }}"
+
+- name: Wireguard generate config
+  ansible.builtin.template:
+      src: templates/wg0.conf.j2
+      dest: /etc/wireguard/wg0.conf
+      owner: root
+      group: root
+      mode: "0644"
+
+- name: Wireguard start
+  ansible.builtin.service:
+      name: wg-quick@wg0
+      state: started
+      enabled: yes
+# DHCP
+# Route
+
+# - name: Test wireguard_route module
+#   wireguard_route:
+#       name: test
