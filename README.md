@@ -20,34 +20,23 @@ This Ansible role installs and configures [WireGuard](https://www.wireguard.com/
 
 Variables can be set in your playbook or inventory. See `defaults/main.yml` for all options.
 
-| Variable                | Description                                 | Default       |
-| ----------------------- | ------------------------------------------- | ------------- |
-| `wireguard_port`        | UDP port for WireGuard                      | 51820         |
-| `wireguard_interface`   | Name of the WireGuard interface             | wg0           |
-| `wireguard_address`     | Address/subnet for the interface            | 10.10.10.1/24 |
-| `wireguard_private_key` | Private key for the server (auto-generated) | ''            |
-| `wireguard_peers`       | List of peer configurations                 | []            |
+| Variable          | Description                                  | Default       |
+| ----------------- | -------------------------------------------- | ------------- |
+| `wireguard_cidr`  | CIDR for WireGuard overlay network           | 10.10.10.0/24 |
+| `wireguard_port`  | UDP port for WireGuard                       | 51820         |
+| `wireguard_graph` | Graph of connections between wireguard peers | {}            |
 
-Example peer definition:
+Example graph definition:
 
 ```yaml
-wireguard_peers:
-    - name: client1
-        public_key: "<client1_public_key>"
-        allowed_ips: "10.10.10.2/32"
-```
-
-## Example Playbook
-
-```yaml
-- hosts: vpnservers
-    become: true
-    roles:
-        - role: wireguard
-            vars:
-                wireguard_address: "10.10.10.1/24"
-                wireguard_peers:
-                    - name: client1
-                        public_key: "<client1_public_key>"
-                        allowed_ips: "10.10.10.2/32"
+wireguard_graph:
+    host1:
+        locals: [192.168.1.0/24]
+        targets: [host2, host3]
+    host2:
+        locals: [192.168.2.0/24]
+        targets: [host1, host3]
+    host3:
+        locals: [192.168.3.0/24]
+        targets: [host1, host2]
 ```
