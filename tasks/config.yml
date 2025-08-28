@@ -6,8 +6,10 @@
       cmd: |
           set -o pipefail
           umask 077
+          [ -f /etc/wireguard/preshared.key ] || wg genpsk | tee /etc/wireguard/preshared.key > /dev/null
           [ -f /etc/wireguard/private.key ] || wg genkey | tee /etc/wireguard/private.key > /dev/null
           [ -f /etc/wireguard/public.key ] || wg pubkey < /etc/wireguard/private.key | tee /etc/wireguard/public.key > /dev/null
+          cat /etc/wireguard/preshared.key
           cat /etc/wireguard/private.key
           cat /etc/wireguard/public.key
 
