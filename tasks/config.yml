@@ -24,7 +24,7 @@
       graph: "{{ wireguard_graph }}"
 
 - name: Generate WireGuard config
-  notify: Reload WireGuard
+  notify: Restart WireGuard
   ansible.builtin.template:
       src: templates/wg0.conf.j2
       dest: /etc/wireguard/wg0.conf
