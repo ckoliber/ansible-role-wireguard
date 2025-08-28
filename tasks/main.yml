@@ -1,5 +1,5 @@
 - name: Load OS family specific variables
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
       params:
           paths: [vars]
