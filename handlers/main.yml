@@ -1,5 +1,13 @@
-- name: Restart WireGuard
+- name: Restart WireGuard (systemd)
+  when: ansible_service_mgr == 'systemd'
+  ansible.builtin.systemd:
+      name: "wg-quick@{{ wireguard_iface }}"
+      state: restarted
+      enabled: true
+
+- name: Restart WireGuard (OpenRC)
+  when: ansible_service_mgr == 'openrc'
   ansible.builtin.service:
-      name: wg-quick@wg0
+      name: "wg-quick.{{ wireguard_iface }}"
       state: restarted
       enabled: true

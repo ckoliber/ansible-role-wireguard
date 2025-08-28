@@ -1,5 +1,18 @@
-- name: Install WireGuard
-  ansible.builtin.apt:
-      name: [wireguard, wireguard-tools]
+- name: Ensure WireGuard config directory exists
+  ansible.builtin.file:
+      path: /etc/wireguard
+      state: directory
+      owner: root
+      group: root
+      mode: "0700"
+
+- name: Install WireGuard packages (generic)
+  ansible.builtin.package:
+      name: "{{ wireguard_packages }}"
       state: present
-      update_cache: true
+
+- name: Load WireGuard kernel module immediately if available
+  when: ansible_system == 'Linux'
+  changed_when: false
+  ansible.builtin.shell:
+      cmd: modprobe wireguard || true

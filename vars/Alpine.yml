@@ -1,0 +1,4 @@
+# Alpine Linux specific variables
+wireguard_packages:
+    - wireguard-tools
+    - wireguard-tools-openrc

@@ -1,8 +1,14 @@
 # WireGuard overlay CIDR
 wireguard_cidr: 10.10.10.0/24
 
-# UDP listen port for the server interface (wg0)
+# WireGuard port number
 wireguard_port: 51820
+
+# WireGuard interface name
+wireguard_iface: wg0
+
+# Package names are defined per OS family in vars/*.yml
+wireguard_packages: [wireguard-tools]
 
 # Map of graph, where each node represents a network segment and edges define allowed communication paths.
 wireguard_graph: {}

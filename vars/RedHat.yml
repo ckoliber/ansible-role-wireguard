@@ -1,0 +1,5 @@
+# RHEL/CentOS/Alma/Rocky/Fedora specific variables
+# EPEL enabled where applicable in tasks/install.yml
+wireguard_packages:
+    - epel-release
+    - wireguard-tools
