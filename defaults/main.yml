@@ -1,2 +1,18 @@
 ---
-# defaults file for wireguard
+# WireGuard overlay CIDR
+wireguard_cidr: 10.10.10.0/24
+
+# UDP listen port for the server interface (wg0)
+wireguard_port: 51820
+
+# Map of graph, where each node represents a network segment and edges define allowed communication paths.
+wireguard_graph: {}
+#     A:
+#         locals: [192.168.100.0/24]
+#         targets: [B, C]
+#     B:
+#         locals: [192.168.110.0/24]
+#         targets: [A, C]
+#     C:
+#         locals: [192.168.120.0/24]
+#         targets: [A, B]
