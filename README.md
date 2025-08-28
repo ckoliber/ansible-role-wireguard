@@ -14,17 +14,20 @@ This Ansible role installs and configures [WireGuard](https://www.wireguard.com/
 ## Requirements
 
 -   Ansible 2.9+
--   Linux (Debian/Ubuntu/CentOS/RedHat/Fedora/Arch)
+-   Linux (Debian/Ubuntu/RHEL/Alma/Rocky/Fedora/Arch/Alpine/SUSE)
 
 ## Role Variables
 
 Variables can be set in your playbook or inventory. See `defaults/main.yml` for all options.
+OS-family specific packages are defined in `vars/<Family>.yml` and loaded automatically.
 
-| Variable          | Description                                  | Default       |
-| ----------------- | -------------------------------------------- | ------------- |
-| `wireguard_cidr`  | CIDR for WireGuard overlay network           | 10.10.10.0/24 |
-| `wireguard_port`  | UDP port for WireGuard                       | 51820         |
-| `wireguard_graph` | Graph of connections between wireguard peers | {}            |
+| Variable             | Description                                        | Default           |
+| -------------------- | -------------------------------------------------- | ----------------- |
+| `wireguard_cidr`     | WireGuard overlay network CIDR                     | 10.10.10.0/24     |
+| `wireguard_port`     | WireGuard port number                              | 51820             |
+| `wireguard_iface`    | WireGuard interface name                           | wg0               |
+| `wireguard_graph`    | Graph of connections between wireguard peers       | {}                |
+| `wireguard_packages` | Package list to install (overrides OS-family vars) | [wireguard-tools] |
 
 Example graph definition:
 

@@ -1,11 +1,11 @@
 [Interface]
-ListenPort = 51820
+ListenPort = {{ wireguard_port }}
 PrivateKey = {{ wireguard_keys.stdout_lines[1] }}
 Address = {{ wireguard_host }}/32
 
 {% for target in wireguard_graph[inventory_hostname].targets %}
 [Peer]
-Endpoint = {{ hostvars[target].ansible_default_ipv4.address }}:51820
+Endpoint = {{ hostvars[target].ansible_default_ipv4.address }}:{{ wireguard_port }}
 PublicKey = {{ hostvars[target].wireguard_keys.stdout_lines[2] }}
 PresharedKey = {{ hostvars[play_hosts[0]].wireguard_keys.stdout_lines[0] }}
 AllowedIPs = {{ ([hostvars[target].wireguard_host ~ '/32'] + wireguard_routes.result[target]) | join(", ") }}

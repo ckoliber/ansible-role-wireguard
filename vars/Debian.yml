@@ -1,0 +1,4 @@
+# Debian/Ubuntu specific variables
+wireguard_packages:
+    - wireguard
+    - wireguard-tools

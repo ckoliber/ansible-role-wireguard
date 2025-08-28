@@ -26,8 +26,8 @@
 - name: Generate WireGuard config
   notify: Restart WireGuard
   ansible.builtin.template:
-      src: templates/wg0.conf.j2
-      dest: /etc/wireguard/wg0.conf
+      src: templates/default.conf.j2
+      dest: "/etc/wireguard/{{ wireguard_iface }}.conf"
       owner: root
       group: root
-      mode: "0644"
+      mode: "0600"
