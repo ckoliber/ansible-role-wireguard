@@ -19,13 +19,15 @@
 - name: Wireguard generate keys
   register: wireguard_keys
   changed_when: false
-  ansible.builtin.shell: |
-      set -e -o pipefail
-      umask 077
-      [ -f /etc/wireguard/private.key ] || wg genkey | tee /etc/wireguard/private.key > /dev/null
-      [ -f /etc/wireguard/public.key ] || wg pubkey < /etc/wireguard/private.key | tee /etc/wireguard/public.key > /dev/null
-      cat /etc/wireguard/private.key
-      cat /etc/wireguard/public.key
+  ansible.builtin.shell:
+      executable: /bin/bash
+      cmd: |
+          set -o pipefail
+          umask 077
+          [ -f /etc/wireguard/private.key ] || wg genkey | tee /etc/wireguard/private.key > /dev/null
+          [ -f /etc/wireguard/public.key ] || wg pubkey < /etc/wireguard/private.key | tee /etc/wireguard/public.key > /dev/null
+          cat /etc/wireguard/private.key
+          cat /etc/wireguard/public.key
 
 - name: Wireguard generate host
   ansible.builtin.set_fact:
