@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.1.0...1.2.0) (2025-08-29)
+
+
+### Features
+
+* enable wireguard iface MASQUERADE ([939bb23](https://github.com/ckoliber/ansible-role-wireguard/commit/939bb233610f39149c4b21a5f8456a9f2af305b8))
+
 # [1.1.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.0.0...1.1.0) (2025-08-28)
 
 
