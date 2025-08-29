@@ -3,6 +3,16 @@ ListenPort = {{ wireguard_port }}
 PrivateKey = {{ wireguard_keys.stdout_lines[1] }}
 Address = {{ wireguard_host }}/32
 
+PostUp = iptables -t nat -I POSTROUTING -o {{ wireguard_iface }} -j MASQUERADE
+PostUp = iptables -I FORWARD -i {{ wireguard_iface }} -j ACCEPT
+PostUp = iptables -I FORWARD -o {{ wireguard_iface }} -j ACCEPT
+PostUp = sysctl -w net.ipv4.ip_forward=1
+
+PostDown = iptables -t nat -D POSTROUTING -o {{ wireguard_iface }} -j MASQUERADE
+PostDown = iptables -D FORWARD -i {{ wireguard_iface }} -j ACCEPT
+PostDown = iptables -D FORWARD -o {{ wireguard_iface }} -j ACCEPT
+PostDown = sysctl -w net.ipv4.ip_forward=0
+
 {% for target in wireguard_graph[inventory_hostname].targets %}
 [Peer]
 Endpoint = {{ hostvars[target].ansible_default_ipv4.address }}:{{ wireguard_port }}
