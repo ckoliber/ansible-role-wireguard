@@ -1,3 +1,18 @@
+# [1.3.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.2.0...1.3.0) (2025-08-30)
+
+
+### Bug Fixes
+
+* add default value if empty for postups, predowns ([09a5737](https://github.com/ckoliber/ansible-role-wireguard/commit/09a573742cac05190a10adc7559dc2c79c482aae))
+* change CIDR range ([45e43d1](https://github.com/ckoliber/ansible-role-wireguard/commit/45e43d1b07a0cc941877dc2c89f702480d0d5921))
+* remove bash requirement in shell module ([f8a2f0c](https://github.com/ckoliber/ansible-role-wireguard/commit/f8a2f0c04a12e38e95926af2139c0d2d366f6065))
+
+
+### Features
+
+* add wg wireguard overlay IPs to AllowedIPs ([f4732ea](https://github.com/ckoliber/ansible-role-wireguard/commit/f4732ea594825f0f65fbfa6a625760926069d8d2))
+* add wireguard postup, predown hooks ([7b38056](https://github.com/ckoliber/ansible-role-wireguard/commit/7b38056036b59546601f3cefeb6d5fd4b9b1d2b9))
+
 # [1.2.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.1.0...1.2.0) (2025-08-29)
 
 
