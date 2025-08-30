@@ -19,7 +19,11 @@
   register: wireguard_routes
   compute_routes:
       hostname: "{{ inventory_hostname }}"
-      network: "{{ wireguard_network | combine(hostvars | dict2items | json_query('[].{key: key, value: {locals: [value.wireguard_host]}}') | items2dict, recursive=True, list_merge='prepend') }}"
+      network: >-
+          {{ wireguard_network | combine(
+              (hostvars | dict2items | json_query('[].{key: key, value: {locals: [value.wireguard_host]}}') | items2dict),
+              recursive=True, list_merge='prepend'
+          ) }}
 
 - name: Generate WireGuard config
   notify: Restart WireGuard
