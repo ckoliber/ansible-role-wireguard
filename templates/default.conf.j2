@@ -3,17 +3,23 @@ ListenPort = {{ wireguard_port }}
 PrivateKey = {{ wireguard_keys.stdout_lines[1] }}
 Address = {{ wireguard_host }}
 
+{% for cmd in wireguard_network[inventory_hostname].postups %}
+PostUp = {{ cmd }}
+{% endfor %}
 PostUp = iptables -t nat -I POSTROUTING -o {{ wireguard_iface }} -j MASQUERADE
 PostUp = iptables -I FORWARD -i {{ wireguard_iface }} -j ACCEPT
 PostUp = iptables -I FORWARD -o {{ wireguard_iface }} -j ACCEPT
 PostUp = sysctl -w net.ipv4.ip_forward=1
 
-PostDown = iptables -t nat -D POSTROUTING -o {{ wireguard_iface }} -j MASQUERADE
-PostDown = iptables -D FORWARD -i {{ wireguard_iface }} -j ACCEPT
-PostDown = iptables -D FORWARD -o {{ wireguard_iface }} -j ACCEPT
-PostDown = sysctl -w net.ipv4.ip_forward=0
+{% for cmd in wireguard_network[inventory_hostname].predowns %}
+PreDown = {{ cmd }}
+{% endfor %}
+PreDown = iptables -t nat -D POSTROUTING -o {{ wireguard_iface }} -j MASQUERADE
+PreDown = iptables -D FORWARD -i {{ wireguard_iface }} -j ACCEPT
+PreDown = iptables -D FORWARD -o {{ wireguard_iface }} -j ACCEPT
+PreDown = sysctl -w net.ipv4.ip_forward=0
 
-{% for target in wireguard_graph[inventory_hostname].targets %}
+{% for target in wireguard_network[inventory_hostname].targets %}
 [Peer]
 Endpoint = {{ hostvars[target].ansible_default_ipv4.address }}:{{ wireguard_port }}
 PublicKey = {{ hostvars[target].wireguard_keys.stdout_lines[2] }}
