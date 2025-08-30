@@ -26,16 +26,20 @@ OS-family specific packages are defined in `vars/<Family>.yml` and loaded automa
 | `wireguard_cidr`     | WireGuard overlay network CIDR                     | 10.10.10.0/24     |
 | `wireguard_port`     | WireGuard port number                              | 51820             |
 | `wireguard_iface`    | WireGuard interface name                           | wg0               |
-| `wireguard_graph`    | Graph of connections between wireguard peers       | {}                |
+| `wireguard_network`  | WireGuard network topology                         | `{}`              |
 | `wireguard_packages` | Package list to install (overrides OS-family vars) | [wireguard-tools] |
 
-Example graph definition:
+Example network definition:
 
 ```yaml
-wireguard_graph:
+wireguard_network:
     host1:
         locals: [192.168.1.0/24]
         targets: [host2, host3]
+        postups:
+            - echo PostUp
+        predowns:
+            - echo PreDown
     host2:
         locals: [192.168.2.0/24]
         targets: [host1, host3]

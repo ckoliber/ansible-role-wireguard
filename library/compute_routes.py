@@ -78,29 +78,29 @@ class Graph():
 
 def main():
     module = AnsibleModule(argument_spec={
-        "host": {"type": "str", "required": True},
-        "graph": {"type": "dict", "required": True},
+        "hostname": {"type": "str", "required": True},
+        "network": {"type": "dict", "required": True},
     })
 
-    host = module.params["host"]
-    graph = module.params["graph"]
+    hostname = module.params["hostname"]
+    network = module.params["network"]
 
     # Create graph object
     g = Graph()
-    for source in graph:
-        for target in graph[source]["targets"]:
+    for source in network:
+        for target in network[source]["targets"]:
             g.add_edge(source, target, 1)
 
     # Compute shortest paths from the host
-    paths = g.shortest_paths(host)
+    paths = g.shortest_paths(hostname)
 
     # Extract next hops for each target
     result = {}
-    for target in g.get_neighbors(host).keys():
+    for target in g.get_neighbors(hostname).keys():
         result[target] = []
         for path in paths.values():
             if path[1] == target:
-                result[target].extend(graph[path[-1]]["locals"])
+                result[target].extend(network[path[-1]]["locals"])
 
     module.exit_json(changed=False, result=result)
 
