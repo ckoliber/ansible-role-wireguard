@@ -43,3 +43,14 @@ wireguard_graph:
         locals: [192.168.3.0/24]
         targets: [host1, host2]
 ```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+This project is licensed under the [MIT](LICENSE.md).  
+Copyright (c) KoLiBer (koliberr136a1@gmail.com)
