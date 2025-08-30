@@ -1,5 +1,5 @@
 # WireGuard overlay CIDR
-wireguard_cidr: 10.10.10.0/24
+wireguard_cidr: 10.10.0.0/16
 
 # WireGuard port number
 wireguard_port: 51820
