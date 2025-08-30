@@ -13,7 +13,11 @@
 
 - name: Generate WireGuard host
   ansible.builtin.set_fact:
-      wireguard_host: "{{ wireguard_cidr | ansible.utils.nthhost(ansible_play_hosts_all.index(inventory_hostname) + 1) }}"
+      wireguard_host: "{{ wireguard_cidr | ansible.utils.nthhost(ansible_play_hosts_all.index(inventory_hostname) + 1) }}/32"
+
+- name: Generate WireGuard graph
+  ansible.builtin.set_fact:
+      wireguard_graph: "{{ wireguard_graph | combine(hostvars | dict2items | json_query('[].{key: key, value: {locals: [value.wireguard_host]}}') | items2dict, recursive=True, list_merge='prepend') }}"
 
 - name: Generate WireGuard routes
   register: wireguard_routes
