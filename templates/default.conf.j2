@@ -3,7 +3,7 @@ ListenPort = {{ wireguard_port }}
 PrivateKey = {{ wireguard_keys.stdout_lines[1] }}
 Address = {{ wireguard_host }}
 
-{% for cmd in wireguard_network[inventory_hostname].postups %}
+{% for cmd in wireguard_network[inventory_hostname].postups | default([]) %}
 PostUp = {{ cmd }}
 {% endfor %}
 PostUp = iptables -t nat -I POSTROUTING -o {{ wireguard_iface }} -j MASQUERADE
@@ -11,7 +11,7 @@ PostUp = iptables -I FORWARD -i {{ wireguard_iface }} -j ACCEPT
 PostUp = iptables -I FORWARD -o {{ wireguard_iface }} -j ACCEPT
 PostUp = sysctl -w net.ipv4.ip_forward=1
 
-{% for cmd in wireguard_network[inventory_hostname].predowns %}
+{% for cmd in wireguard_network[inventory_hostname].predowns | default([]) %}
 PreDown = {{ cmd }}
 {% endfor %}
 PreDown = iptables -t nat -D POSTROUTING -o {{ wireguard_iface }} -j MASQUERADE
