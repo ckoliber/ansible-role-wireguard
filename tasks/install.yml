@@ -10,6 +10,7 @@
   ansible.builtin.package:
       name: "{{ wireguard_packages }}"
       state: present
+      update_cache: true
 
 - name: Load WireGuard kernel module immediately if available
   when: ansible_system == 'Linux'
