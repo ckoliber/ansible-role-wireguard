@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.5.0...2.0.0) (2025-09-04)
+
+
+### Features
+
+* change endpoint to be conditional ([348f061](https://github.com/ckoliber/ansible-role-wireguard/commit/348f06189bfdf062ca8282d0d2f6a7b36268e39a))
+
+
+### BREAKING CHANGES
+
+* host variable must be used
+
 # [1.5.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.4.0...1.5.0) (2025-09-04)
 
 
