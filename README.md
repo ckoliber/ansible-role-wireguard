@@ -23,7 +23,7 @@ OS-family specific packages are defined in `vars/<Family>.yml` and loaded automa
 
 | Variable             | Description                                        | Default           |
 | -------------------- | -------------------------------------------------- | ----------------- |
-| `wireguard_cidr`     | WireGuard overlay network CIDR                     | 10.10.10.0/24     |
+| `wireguard_cidr`     | WireGuard overlay network CIDR                     | 10.10.0.0/16      |
 | `wireguard_port`     | WireGuard port number                              | 51820             |
 | `wireguard_iface`    | WireGuard interface name                           | wg0               |
 | `wireguard_network`  | WireGuard network topology                         | `{}`              |
