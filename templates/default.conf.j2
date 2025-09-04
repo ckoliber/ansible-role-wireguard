@@ -13,9 +13,9 @@ PreDown = {{ cmd }}
 
 {% for target in wireguard_network[inventory_hostname].targets %}
 [Peer]
-{% if wireguard_network[target].host == "default" %}
+{% if wireguard_network[target].host | default("") == "default" %}
 Endpoint = {{ hostvars[target].ansible_default_ipv4.address }}:{{ wireguard_port }}
-{% elif wireguard_network[target].host %}
+{% elif wireguard_network[target].host is defined %}
 Endpoint = {{ wireguard_network[target].host }}:{{ wireguard_port }}
 {% endif %}
 PublicKey = {{ hostvars[target].wireguard_keys.stdout_lines[2] }}
