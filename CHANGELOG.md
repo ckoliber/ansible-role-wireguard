@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.3.0...1.4.0) (2025-09-04)
+
+
+### Features
+
+* remove unnecessary hooks ([9769dc3](https://github.com/ckoliber/ansible-role-wireguard/commit/9769dc3468744789b333ac224b52f4c21d608356))
+
 # [1.3.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.2.0...1.3.0) (2025-08-30)
 
 
