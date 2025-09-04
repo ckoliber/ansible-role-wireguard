@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.4.0...1.5.0) (2025-09-04)
+
+
+### Features
+
+* add conditional peer endpoint variable ([16b2bd0](https://github.com/ckoliber/ansible-role-wireguard/commit/16b2bd0e0ec7bc305db958bd14389ce425b57e5d))
+
 # [1.4.0](https://github.com/ckoliber/ansible-role-wireguard/compare/1.3.0...1.4.0) (2025-09-04)
 
 
