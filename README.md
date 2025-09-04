@@ -34,6 +34,7 @@ Example network definition:
 ```yaml
 wireguard_network:
     host1:
+        host: default or <PUBLIC_IP_OR_DNS>
         locals: [192.168.1.0/24]
         targets: [host2, host3]
         postups:
@@ -41,9 +42,11 @@ wireguard_network:
         predowns:
             - echo PreDown
     host2:
+        host: default or <PUBLIC_IP_OR_DNS>
         locals: [192.168.2.0/24]
         targets: [host1, host3]
     host3:
+        host: default or <PUBLIC_IP_OR_DNS>
         locals: [192.168.3.0/24]
         targets: [host1, host2]
 ```

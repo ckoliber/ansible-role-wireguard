@@ -10,6 +10,7 @@ wireguard_iface: wg0
 # WireGuard network topology and hooks
 wireguard_network: {}
 #     A:
+#         host: default or <PUBLIC_IP_OR_DNS>
 #         locals: [192.168.100.0/24]
 #         targets: [B, C]
 #         # Optional: custom WireGuard lifecycle hooks (string or list of strings)
@@ -18,9 +19,11 @@ wireguard_network: {}
 #         predowns:
 #             - echo "bringing down A"
 #     B:
+#         host: default or <PUBLIC_IP_OR_DNS>
 #         locals: [192.168.110.0/24]
 #         targets: [A, C]
 #     C:
+#         host: default or <PUBLIC_IP_OR_DNS>
 #         locals: [192.168.120.0/24]
 #         targets: [A, B]
 
