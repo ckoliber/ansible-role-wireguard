@@ -3,33 +3,33 @@
   changed_when: false
   # noqa risky-shell-pipe
   ansible.builtin.shell: |
-      umask 077
-      [ -f /etc/wireguard/preshared.key ] || wg genpsk | tee /etc/wireguard/preshared.key > /dev/null
-      [ -f /etc/wireguard/private.key ] || wg genkey | tee /etc/wireguard/private.key > /dev/null
-      [ -f /etc/wireguard/public.key ] || wg pubkey < /etc/wireguard/private.key | tee /etc/wireguard/public.key > /dev/null
-      cat /etc/wireguard/preshared.key
-      cat /etc/wireguard/private.key
-      cat /etc/wireguard/public.key
+    umask 077
+    [ -f /etc/wireguard/preshared.key ] || wg genpsk | tee /etc/wireguard/preshared.key > /dev/null
+    [ -f /etc/wireguard/private.key ] || wg genkey | tee /etc/wireguard/private.key > /dev/null
+    [ -f /etc/wireguard/public.key ] || wg pubkey < /etc/wireguard/private.key | tee /etc/wireguard/public.key > /dev/null
+    cat /etc/wireguard/preshared.key
+    cat /etc/wireguard/private.key
+    cat /etc/wireguard/public.key
 
 - name: Generate WireGuard host
   ansible.builtin.set_fact:
-      wireguard_host: "{{ wireguard_cidr | ansible.utils.nthhost(ansible_play_hosts_all.index(inventory_hostname) + 1) }}/32"
+    wireguard_host: "{{ wireguard_cidr | ansible.utils.nthhost(ansible_play_hosts_all.index(inventory_hostname) + 1) }}/32"
 
 - name: Generate WireGuard routes
   register: wireguard_routes
   compute_routes:
-      hostname: "{{ inventory_hostname }}"
-      network: >-
-          {{ wireguard_network | combine(
-              (hostvars | dict2items | json_query('[].{key: key, value: {locals: [value.wireguard_host]}}') | items2dict),
-              recursive=True, list_merge='prepend'
-          ) }}
+    hostname: "{{ inventory_hostname }}"
+    network: >-
+      {{ wireguard_network | combine(
+          (hostvars | dict2items | json_query('[].{key: key, value: {locals: [value.wireguard_host]}}') | items2dict),
+          recursive=True, list_merge='prepend'
+      ) }}
 
 - name: Generate WireGuard config
   notify: Restart WireGuard
   ansible.builtin.template:
-      src: templates/default.conf.j2
-      dest: "/etc/wireguard/{{ wireguard_iface }}.conf"
-      owner: root
-      group: root
-      mode: "0600"
+    src: templates/default.conf.j2
+    dest: "/etc/wireguard/{{ wireguard_iface }}.conf"
+    owner: root
+    group: root
+    mode: "0600"
