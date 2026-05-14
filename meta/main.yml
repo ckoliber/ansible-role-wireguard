@@ -3,7 +3,7 @@ galaxy_info:
   namespace: ckoliber
   role_name: wireguard
   description: Setup WireGuard VPN using Ansible
-  company: KoLiBer
+  company: Hoomaan
   license: MIT
   min_ansible_version: "2.9"
 
