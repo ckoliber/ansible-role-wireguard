@@ -13,7 +13,7 @@
     update_cache: true
 
 - name: Load WireGuard kernel module immediately if available
-  when: ansible_system == 'Linux'
+  when: ansible_facts.system == 'Linux'
   changed_when: false
   ansible.builtin.shell:
     cmd: modprobe wireguard || true
