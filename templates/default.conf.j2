@@ -19,7 +19,7 @@ Endpoint = {{ hostvars[target].ansible_facts.default_ipv4.address }}:{{ wireguar
 Endpoint = {{ wireguard_network[target].host }}:{{ wireguard_port }}
 {% endif %}
 PublicKey = {{ hostvars[target].wireguard_keys.stdout_lines[2] }}
-PresharedKey = {{ hostvars[play_hosts[0]].wireguard_keys.stdout_lines[0] }}
+PresharedKey = {{ hostvars[ansible_play_hosts_all[0]].wireguard_keys.stdout_lines[0] }}
 AllowedIPs = {{ wireguard_routes.result[target] | join(", ") }}
 PersistentKeepalive = 25
 {% endfor %}
